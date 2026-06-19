@@ -207,7 +207,7 @@ export default function App() {
       
       {/* 100VH COMBINED HERO & HEADER CONTAINER WITH DELICATE LIGHT GRID ACCENTS */}
       <div 
-        className="relative min-h-screen lg:h-screen lg:max-h-[960px] flex flex-col justify-between overflow-hidden" 
+        className="relative h-[85vh] sm:min-h-screen lg:h-screen lg:max-h-[960px] flex flex-col justify-between overflow-hidden" 
         id="hero-and-header-container"
         style={{ 
           backgroundImage: `
@@ -233,10 +233,10 @@ export default function App() {
 
         {/* ULTRA-DENSE GLASSMORPHIC SCROLLED HEADER (FLOATS GRACEFULLY AT 95% STICKY WIDTH) */}
         <header 
-          className={`fixed z-[60] transition-all duration-500 ease-in-out left-1/2 -translate-x-1/2 bg-white/50 backdrop-blur-3xl border ${
+          className={`fixed z-[60] transition-all duration-500 ease-in-out left-1/2 -translate-x-1/2 ${
             (scrolled || mobileMenuOpen)
-              ? "top-4 w-[95%] max-w-7xl rounded-2xl border-[#142D95]/50 shadow-2xl shadow-slate-200/35 py-2" 
-              : "top-0 w-full max-w-none rounded-none border-transparent border-b border-b-slate-100/10 py-2.5"
+              ? "top-4 w-[95%] max-w-7xl bg-white rounded-2xl border border-[#142D95]/50 shadow-2xl shadow-slate-200/35 py-2" 
+              : "top-0 w-full max-w-none bg-transparent backdrop-blur-none rounded-none border border-transparent py-2.5"
           }`}
           id="main-app-header"
         >
