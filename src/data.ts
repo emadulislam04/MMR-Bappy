@@ -71,7 +71,7 @@ export const EXPERIENCES: Experience[] = [
     role: "Merchandiser",
     company: "Crossline Bangladesh Ltd",
     location: "Banani, Dhaka 1213, Bangladesh · On-site",
-    period: "October 2018 - Present",
+    period: "October 2018 - March 2026",
     description: [
       "Handled costing & price negotiations, achieving 8–12% overall cost optimization",
       "Managed 800+ customer orders across multiple product categories efficiently",

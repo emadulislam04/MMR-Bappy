@@ -164,10 +164,46 @@ export default function App() {
       className="relative min-h-screen bg-gradient-to-b from-[#f8fafc] via-white to-[#f1f5f9] text-slate-800 overflow-x-hidden selection:bg-[#142D95]/20 selection:text-slate-900 font-sans"
     >
       
-      {/* Absolute Dynamic Colored Light Orbs - Subtle, glowing, high-blur light cyan/royal blue gradients */}
-      <div className="absolute top-[3%] left-[10%] w-[320px] h-[320px] sm:w-[550px] sm:h-[550px] bg-sky-200/40 rounded-full filter blur-[120px] pointer-events-none" />
-      <div className="absolute top-[25%] right-[5%] w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] bg-blue-100/30 rounded-full filter blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[20%] left-[8%] w-[350px] h-[350px] sm:w-[600px] sm:h-[600px] bg-indigo-100/30 rounded-full filter blur-[140px] pointer-events-none" />
+      {/* Absolute Dynamic Colored Light Orbs with slow elegant breathing movement animations */}
+      <motion.div 
+        animate={{
+          scale: [1, 1.15, 0.92, 1],
+          x: [0, 40, -25, 0],
+          y: [0, -30, 25, 0],
+        }}
+        transition={{
+          duration: 16,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="absolute top-[3%] left-[10%] w-[320px] h-[320px] sm:w-[550px] sm:h-[550px] bg-sky-200/40 rounded-full filter blur-[120px] pointer-events-none" 
+      />
+      <motion.div 
+        animate={{
+          scale: [1, 0.88, 1.12, 1],
+          x: [0, -35, 30, 0],
+          y: [0, 25, -35, 0],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="absolute top-[25%] right-[5%] w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] bg-blue-100/30 rounded-full filter blur-[100px] pointer-events-none" 
+      />
+      <motion.div 
+        animate={{
+          scale: [1, 1.1, 0.9, 1],
+          x: [0, 25, -20, 0],
+          y: [0, 20, -20, 0],
+        }}
+        transition={{
+          duration: 24,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="absolute bottom-[20%] left-[8%] w-[350px] h-[350px] sm:w-[600px] sm:h-[600px] bg-indigo-100/30 rounded-full filter blur-[140px] pointer-events-none" 
+      />
       
       {/* 100VH COMBINED HERO & HEADER CONTAINER WITH DELICATE LIGHT GRID ACCENTS */}
       <div 
@@ -182,12 +218,25 @@ export default function App() {
           backgroundSize: "32px 32px, 16px 16px, 16px 16px",
         }}
       >
-        {/* ULTRA-DENSE GLASSMORPHIC SCROLLED HEADER (FLOATS GRACEFULLY AT 100% WIDTH) */}
+        {/* Animated dynamic shifting background gradient overlay */}
+        <motion.div 
+          animate={{
+            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute inset-0 opacity-[0.09] bg-gradient-to-tr from-[#142D95]/30 via-[#2563eb]/20 to-[#FCEF74]/30 bg-[length:200%_200%] pointer-events-none"
+        />
+
+        {/* ULTRA-DENSE GLASSMORPHIC SCROLLED HEADER (FLOATS GRACEFULLY AT 95% STICKY WIDTH) */}
         <header 
-          className={`fixed z-50 transition-all duration-300 ease-in-out top-0 left-0 right-0 w-full border-b bg-white/90 backdrop-blur-2xl ${
-            scrolled 
-              ? "border-slate-200/80 shadow-md py-2" 
-              : "border-slate-200/40 shadow-sm py-2.5"
+          className={`fixed z-[60] transition-all duration-500 ease-in-out left-1/2 -translate-x-1/2 bg-white/50 backdrop-blur-3xl border ${
+            (scrolled || mobileMenuOpen)
+              ? "top-4 w-[95%] max-w-7xl rounded-2xl border-[#142D95]/50 shadow-2xl shadow-slate-200/35 py-2" 
+              : "top-0 w-full max-w-none rounded-none border-transparent border-b border-b-slate-100/10 py-2.5"
           }`}
           id="main-app-header"
         >
@@ -205,8 +254,11 @@ export default function App() {
                     id="pfp-thumbnail"
                   />
                 </div>
-                {/* Perfectly steady green active status dot */}
-                <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-emerald-500 border-2 border-white shadow-sm" id="active-pfp-dot" />
+                {/* Pulsing indicator green dot without border */}
+                <span className="absolute bottom-0.5 right-0.5 flex h-2.5 w-2.5 z-10" id="active-pfp-dot">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                </span>
               </div>
               <div className="flex flex-col">
                 <span className="font-sans font-black text-sm sm:text-base tracking-tight text-[#050F40] group-hover:text-[#142D95] transition-colors" id="nav-brand-name">
@@ -268,7 +320,7 @@ export default function App() {
                 {/* Mobile menu toggle */}
                 <button 
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="lg:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors focus:outline-none"
+                  className="lg:hidden p-2 rounded-lg text-[#142D95] bg-[#142D95]/5 hover:bg-[#142D95]/10 border border-[#142D95]/10 transition-colors focus:outline-none"
                   aria-label="Toggle Menu"
                   id="mobile-menu-toggle-btn"
                 >
@@ -279,84 +331,89 @@ export default function App() {
 
           </div>
 
-          {/* MOBILE DRAWER: Sliding smoothly from the top */}
+          {/* MOBILE DROWER: Drop down directly from the sticky header boundary to keep exact margins and design consistency */}
           <AnimatePresence>
             {mobileMenuOpen && (
-              <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-start" id="mobile-menu-drawer-portal">
-                {/* Overlay Backdrop */}
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="fixed inset-0 bg-[#020617]/40 backdrop-blur-xs"
-                  onClick={() => setMobileMenuOpen(false)}
-                />
+              <motion.div 
+                initial={{ y: -15, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -15, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="lg:hidden absolute top-full left-0 right-0 mt-3 bg-white/95 backdrop-blur-3xl shadow-2xl rounded-2xl border border-[#142D95]/50 p-6 flex flex-col z-50"
+              >
+                <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+                  <span className="font-poppins font-black text-xs text-[#142D95] uppercase tracking-widest">Navigation</span>
+                  <button 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-900 transition-colors focus:outline-none"
+                    id="close-mobile-menu-btn"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
                 
-                {/* Drawer Container - Sliding gracefully from the top */}
-                <motion.div 
-                  initial={{ y: -60, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -60, opacity: 0 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="relative w-full bg-white shadow-2xl rounded-b-[20px] border-b border-slate-200/80 p-6 flex flex-col z-50"
-                >
-                  <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
-                    <span className="font-poppins font-black text-xs text-[#142D95] uppercase tracking-widest">Navigation</span>
-                    <button 
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-slate-900 transition-colors focus:outline-none"
-                      id="close-mobile-menu-btn"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </div>
-                  
-                  <nav className="flex flex-col space-y-4">
-                    <a 
-                      href="#hero" 
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-sm font-poppins font-black uppercase tracking-widest text-slate-700 hover:text-[#142D95] py-2 transition-colors border-b border-slate-50"
-                    >
-                      Home
-                    </a>
-                    <a 
-                      href="#about-me" 
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-sm font-poppins font-black uppercase tracking-widest text-slate-700 hover:text-[#142D95] py-2 transition-colors border-b border-slate-50"
-                    >
-                      About
-                    </a>
-                    <a 
-                      href="#experience-timeline" 
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-sm font-poppins font-black uppercase tracking-widest text-slate-700 hover:text-[#142D95] py-2 transition-colors border-b border-slate-50"
-                    >
-                      Experience
-                    </a>
-                    <a 
-                      href="#clients-managed" 
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-sm font-poppins font-black uppercase tracking-widest text-slate-700 hover:text-[#142D95] py-2 transition-colors"
-                    >
-                      managed buyer
-                    </a>
-                  </nav>
-                  <div className="pt-6 mt-4 border-t border-slate-100">
-                    <a 
-                      href={`mailto:${PERSONAL_INFO.email}`} 
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 text-xs text-white bg-[#142D95] hover:bg-[#122780] font-poppins font-black uppercase tracking-wider rounded-lg transition-all duration-150 hover:translate-y-[-1px] active:translate-y-[1px]"
-                    >
-                      <span>Email me</span>
-                      <Send className="w-4 h-4 text-white" />
-                    </a>
-                  </div>
-                </motion.div>
-              </div>
+                <nav className="flex flex-col space-y-4">
+                  <a 
+                    href="#hero" 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-sm font-poppins font-black uppercase tracking-widest text-[#050F40] hover:text-[#142D95] py-2 transition-colors border-b border-slate-50"
+                  >
+                    Home
+                  </a>
+                  <a 
+                    href="#about-me" 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-sm font-poppins font-black uppercase tracking-widest text-[#050F40] hover:text-[#142D95] py-2 transition-colors border-b border-slate-50"
+                  >
+                    About
+                  </a>
+                  <a 
+                    href="#experience-timeline" 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-sm font-poppins font-black uppercase tracking-widest text-[#050F40] hover:text-[#142D95] py-2 transition-colors border-b border-slate-50"
+                  >
+                    Experience
+                  </a>
+                  <a 
+                    href="#clients-managed" 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-sm font-poppins font-black uppercase tracking-widest text-[#050F40] hover:text-[#142D95] py-2 transition-colors"
+                  >
+                    managed buyer
+                  </a>
+                </nav>
+                
+                <div className="pt-6 mt-4 border-t border-slate-100">
+                  <a 
+                    href={`mailto:${PERSONAL_INFO.email}`} 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 text-xs text-white bg-gradient-to-r from-[#142D95] via-[#3B52D4] to-[#142D95] bg-[length:200%_auto] hover:bg-[right_center] font-poppins font-black uppercase tracking-wider rounded-lg transition-all duration-150 hover:translate-y-[-1px] active:translate-y-[1px] relative overflow-hidden group cursor-pointer text-center"
+                  >
+                    <span className="absolute inset-0 w-full h-full bg-linear-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" style={{ transform: "skewX(-20deg)" }} />
+                    <span>Email me</span>
+                    <Send className="w-4 h-4 text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                </div>
+              </motion.div>
             )}
           </AnimatePresence>
+
         </header>
+
+        {/* OVERLAY BACKDROP: Placed fixed globally to close the menu when clicked outside */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="lg:hidden fixed inset-0 bg-[#020617]/40 backdrop-blur-xs z-40 cursor-pointer"
+              onClick={() => setMobileMenuOpen(false)}
+              id="mobile-menu-backdrop"
+            />
+          )}
+        </AnimatePresence>
 
         {/* HERO CONTENT SECTION - STYLED IN ELEVATED WHITE BG & BLUE GRADIENT */}
         <section 
@@ -487,7 +544,7 @@ export default function App() {
                 Md Muhyminur Rahman Bappy
               </h2>
               <span className="text-xs font-poppins text-slate-500 uppercase tracking-wider block font-bold">
-                B.Sc in Textile Engineering · Senior Merchandiser
+                Senior Merchandiser
               </span>
             </div>
 
@@ -883,7 +940,7 @@ export default function App() {
           {/* Big Text with Gradient BG (bottom-to-top) */}
           <div className="py-2">
             <h2 className="text-xl sm:text-4xl md:text-5xl lg:text-6xl font-sans font-black tracking-widest select-none animate-none uppercase bg-gradient-to-t from-[#050F40] via-[#102476] to-[#3459e6] bg-clip-text text-transparent block md:whitespace-nowrap px-2 leading-relaxed sm:leading-none">
-              <span className="block sm:inline">Md Muhyminur</span> <span className="block sm:inline mt-1 sm:mt-0">Rahman Bappy</span>
+              Md Muhyminur Rahman Bappy
             </h2>
           </div>
 
@@ -926,7 +983,7 @@ export default function App() {
               © 2026 Md Muhyminur Rahman Bappy. All rights reserved.
             </p>
             <p className="text-[10.5px] sm:text-xs text-slate-500 font-semibold font-sans tracking-tight sm:tracking-wide">
-              Developed by <span className="text-slate-300 font-bold font-sans">Emadul Islam Akash</span>
+              Developed by <a href="https://www.facebook.com/eiakash0" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-400 font-bold font-sans transition-colors duration-200 underline decoration-dotted underline-offset-2">Emadul Islam Akash</a>
             </p>
           </div>
         </div>
@@ -975,14 +1032,14 @@ export default function App() {
             <div className="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1 text-slate-700">
               
               {/* Compact Key Parameters Visual Grid */}
-              <div className="grid grid-cols-2 gap-3" id="modal-visual-parameter-grid">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" id="modal-visual-parameter-grid">
                 <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex flex-col justify-between">
                   <span className="text-[8.5px] sm:text-[9px] font-mono text-slate-500 uppercase tracking-wider block mb-1">Workplace Location</span>
-                  <span className="text-[11px] sm:text-xs font-sans font-extrabold text-[#142D95] truncate">{activeExpModal.location}</span>
+                  <span className="text-[11px] sm:text-xs font-sans font-extrabold text-[#142D95] whitespace-normal break-words">{activeExpModal.location}</span>
                 </div>
                 <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex flex-col justify-between">
                   <span className="text-[8.5px] sm:text-[9px] font-mono text-slate-500 uppercase tracking-wider block mb-1">Tenure Window</span>
-                  <span className="text-[11px] sm:text-xs font-mono font-extrabold text-[#142D95] truncate">{activeExpModal.period}</span>
+                  <span className="text-[11px] sm:text-xs font-mono font-extrabold text-[#142D95] whitespace-normal break-words">{activeExpModal.period}</span>
                 </div>
               </div>
 
@@ -1008,22 +1065,31 @@ export default function App() {
                   <div className="text-[9px] font-mono text-slate-500 font-bold uppercase tracking-wider">
                     Assigned Global Brands
                   </div>
-                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80">
-                    <p className="text-xs sm:text-sm text-slate-700 font-semibold leading-relaxed">
-                      {activeExpModal.buyers}
-                    </p>
+                  <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
+                    <ul className="space-y-2 list-none">
+                      {activeExpModal.buyers.split(/•|\u2022/).map((buyer, bIdx) => {
+                        const trimmedBuyer = buyer.trim();
+                        if (!trimmedBuyer) return null;
+                        return (
+                          <li key={`buyer-li-${bIdx}`} className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 font-semibold leading-relaxed">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#142D95] mt-2 flex-shrink-0" />
+                            <span>{trimmedBuyer}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
                   </div>
                 </div>
               )}
 
               {/* Technical Domain competencies */}
-              <div className="space-y-2.5">
-                <h4 className="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500">Utilized Competency Tags</h4>
+              <div className="space-y-2.5 font-poppins">
+                <h4 className="text-[9px] font-bold uppercase tracking-wider text-slate-500">Utilized Competency Tags</h4>
                 <div className="flex flex-wrap gap-1.5">
                   {activeExpModal.skills.map((skill, sIdx) => (
                     <span 
                       key={`modal-skill-${sIdx}`}
-                      className="px-2.5 py-1 bg-slate-100/70 text-slate-700 text-[10px] font-mono rounded-md border border-slate-200/60 font-medium"
+                      className="px-2.5 py-1 bg-slate-100/70 text-slate-700 text-[10px] rounded-md border border-slate-200/60 font-semibold"
                     >
                       {skill}
                     </span>
