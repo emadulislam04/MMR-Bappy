@@ -207,7 +207,7 @@ export default function App() {
       
       {/* 100VH COMBINED HERO & HEADER CONTAINER WITH DELICATE LIGHT GRID ACCENTS */}
       <div 
-        className="relative h-[85vh] sm:min-h-screen lg:h-screen lg:max-h-[960px] flex flex-col justify-between overflow-hidden" 
+        className="relative h-screen lg:max-h-[960px] flex flex-col justify-between overflow-hidden" 
         id="hero-and-header-container"
         style={{ 
           backgroundImage: `
@@ -231,12 +231,12 @@ export default function App() {
           className="absolute inset-0 opacity-[0.09] bg-gradient-to-tr from-[#142D95]/30 via-[#2563eb]/20 to-[#FCEF74]/30 bg-[length:200%_200%] pointer-events-none"
         />
 
-        {/* ULTRA-DENSE GLASSMORPHIC SCROLLED HEADER (FLOATS GRACEFULLY AT 95% STICKY WIDTH) */}
+        {/* ULTRA-DENSE GLASSMORPHIC SCROLLED HEADER (FLOATS GRACEFULLY) */}
         <header 
-          className={`fixed z-[60] transition-all duration-500 ease-in-out left-1/2 -translate-x-1/2 ${
+          className={`fixed z-[60] transition-all duration-500 ease-in-out left-0 right-0 top-0 w-full ${
             (scrolled || mobileMenuOpen)
-              ? "top-4 w-[95%] max-w-7xl bg-white rounded-2xl border border-[#142D95]/50 shadow-2xl shadow-slate-200/35 py-2" 
-              : "top-0 w-full max-w-none bg-transparent backdrop-blur-none rounded-none border border-transparent py-2.5"
+              ? "bg-white border-b border-[#142D95]/15 shadow-lg py-2" 
+              : "bg-transparent backdrop-blur-none border-b border-transparent py-2.5"
           }`}
           id="main-app-header"
         >
@@ -331,7 +331,7 @@ export default function App() {
 
           </div>
 
-          {/* MOBILE DROWER: Drop down directly from the sticky header boundary to keep exact margins and design consistency */}
+          {/* MOBILE DRAWER: Drops down directly from the sticky header boundary to keep exact margins and design consistency */}
           <AnimatePresence>
             {mobileMenuOpen && (
               <motion.div 
@@ -339,19 +339,8 @@ export default function App() {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -15, opacity: 0 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
-                className="lg:hidden absolute top-full left-0 right-0 mt-3 bg-white/95 backdrop-blur-3xl shadow-2xl rounded-2xl border border-[#142D95]/50 p-6 flex flex-col z-50"
+                className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-2xl border-t border-slate-100 p-6 flex flex-col z-50"
               >
-                <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
-                  <span className="font-poppins font-black text-xs text-[#142D95] uppercase tracking-widest">Navigation</span>
-                  <button 
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-900 transition-colors focus:outline-none"
-                    id="close-mobile-menu-btn"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-                
                 <nav className="flex flex-col space-y-4">
                   <a 
                     href="#hero" 
@@ -992,12 +981,12 @@ export default function App() {
       {/* PROFESSIONAL POPUP MODAL FOR DETAILED JOBS PROFILE */}
       {activeExpModal && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-md transition-all duration-300"
+          className="fixed inset-0 z-[999] flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-md transition-all duration-300"
           onClick={() => setActiveExpModal(null)}
           id="experience-popup-backdrop"
         >
           <div 
-            className="w-full max-w-xl bg-white text-slate-800 rounded-2xl shadow-2xl overflow-hidden border border-slate-200 max-h-[92vh] flex flex-col scale-100 transition-transform duration-300"
+            className="w-full max-w-xl bg-white text-slate-800 rounded-2xl shadow-2xl overflow-hidden border border-slate-200 h-[85vh] max-h-[85vh] flex flex-col scale-100 transition-transform duration-300"
             onClick={(e) => e.stopPropagation()}
             id="experience-popup-modal"
           >
