@@ -78,6 +78,27 @@ export default function App() {
   const [activeExpModal, setActiveExpModal] = useState<typeof EXPERIENCES[0] | null>(null);
   const [activeSkillCat, setActiveSkillCat] = useState("merchandising");
   const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+
+  // Smooth realistic progress load
+  useEffect(() => {
+    const start = Date.now();
+    const duration = 1200; // 1.2 seconds elegant loading experience
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(100, Math.floor((elapsed / duration) * 100));
+      setLoadingProgress(progress);
+      if (progress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 150); // Elegant small pause at 100%
+      }
+    }, 20);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Monitor scroll for header solidifying
   useEffect(() => {
@@ -88,9 +109,9 @@ export default function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Stop body scrolling when popup/modal is open
+  // Stop body scrolling when popup/modal is open or website is loading
   useEffect(() => {
-    if (activeExpModal) {
+    if (activeExpModal || isLoading) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -98,7 +119,7 @@ export default function App() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [activeExpModal]);
+  }, [activeExpModal, isLoading]);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(PERSONAL_INFO.email);
@@ -163,6 +184,64 @@ export default function App() {
     <div 
       className="relative min-h-screen bg-gradient-to-b from-[#f8fafc] via-white to-[#f1f5f9] text-slate-800 overflow-x-hidden selection:bg-[#142D95]/20 selection:text-slate-900 font-sans"
     >
+      
+      {/* PREMIUM MINIMALIST PRELOADER */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ 
+              opacity: 0,
+              filter: "blur(8px)",
+              transition: { duration: 0.45, ease: "easeInOut" }
+            }}
+            className="fixed inset-0 z-[10000] bg-[#f8fafc] flex flex-col items-center justify-center text-slate-800"
+            id="website-preloader"
+          >
+            <div className="flex flex-col items-center max-w-md px-6 text-center" id="preloader-content">
+              {/* Sleek minimalist spinner/circle */}
+              <div className="relative w-10 h-10 mb-6">
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                  className="w-full h-full rounded-full border-[2px] border-[#142D95]/10 border-t-[#142D95]"
+                />
+              </div>
+
+              {/* Minimal brand text with sophisticated letter spacing */}
+              <motion.h1 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="font-sans font-bold text-sm tracking-[0.3em] uppercase text-slate-900 mb-1"
+              >
+                M. M. R. BAPPY
+              </motion.h1>
+
+              <motion.p 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.6 }}
+                className="font-sans text-[9px] text-slate-500 tracking-[0.15em] uppercase mb-6"
+              >
+                Merchandising Portfolio
+              </motion.p>
+
+              {/* Very thin loading line */}
+              <div className="w-36 h-[2px] bg-slate-200/60 rounded-full overflow-hidden relative mb-2">
+                <motion.div 
+                  className="h-full bg-[#142D95]"
+                  animate={{ width: `${loadingProgress}%` }}
+                  transition={{ ease: "easeOut" }}
+                />
+              </div>
+
+              {/* Minimal percentage */}
+              <span className="font-mono text-[9px] text-slate-400 tracking-widest uppercase">
+                {loadingProgress}%
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       
       {/* Absolute Dynamic Colored Light Orbs with slow elegant breathing movement animations */}
       <motion.div 
@@ -405,9 +484,12 @@ export default function App() {
         </AnimatePresence>
 
         {/* HERO CONTENT SECTION - STYLED IN ELEVATED WHITE BG & BLUE GRADIENT */}
-        <section 
+        <motion.section 
           id="hero" 
-          className="relative w-full flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 pt-24 pb-12 sm:pt-28 md:pt-32 animate-fade-in-up"
+          initial={{ opacity: 0, y: 35 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 pt-24 pb-12 sm:pt-28 md:pt-32"
         >
           {/* Core Hero Content */}
           <div className="flex flex-col items-center justify-center text-center max-w-none w-full xl:max-w-6xl mx-auto animate-fade-in-up animation-delay-200">
@@ -502,11 +584,18 @@ export default function App() {
           </div>
 
           <div className="h-2" />
-        </section>
+        </motion.section>
       </div>
 
       {/* 2. ABOUT ME SECTION - CONVERTED TO PREMIUM LIGHT INTUITIVE WHITE BG */}
-      <section className="bg-white py-24 px-4 sm:px-6 lg:px-8 border-t border-slate-200/60 animate-fade-in-up" id="about-me">
+      <motion.section 
+        className="bg-white py-24 px-4 sm:px-6 lg:px-8 border-t border-slate-200/60" 
+        id="about-me"
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-120px" }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-center gap-12 sm:gap-16">
           
           {/* Left Column: REAL portrait photo with zero outer border */}
@@ -574,10 +663,17 @@ export default function App() {
 
           </div>
         </div>
-      </section>
+      </motion.section>
 
        {/* 3. WORK EXPERIENCE TIMELINE SECTION - NO CARD HOVER EFFECT & CREATIVE DOUBLE TIMELINE SPINE */}
-      <section className="bg-slate-50/50 py-24 border-t border-b border-slate-200/60 animate-fade-in-up" id="experience-timeline">
+      <motion.section 
+        className="bg-slate-50/50 py-24 border-t border-b border-slate-200/60" 
+        id="experience-timeline"
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-120px" }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <SectionHeader 
@@ -678,10 +774,17 @@ export default function App() {
           </div>
 
         </div>
-      </section>
+      </motion.section>
 
       {/* 4. CLIENTS MANAGED - MAJOR BRAND PORTFOLIO EXPORT ROW */}
-      <section className="bg-white py-24 border-b border-slate-200/60 animate-fade-in-up" id="clients-managed">
+      <motion.section 
+        className="bg-white py-24 border-b border-slate-200/60" 
+        id="clients-managed"
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-120px" }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <SectionHeader 
@@ -711,10 +814,17 @@ export default function App() {
           </div>
 
         </div>
-      </section>
+      </motion.section>
 
       {/* 5. PROFESSIONAL INDEX SECTION - REFACTORED INTO AN IMMERSIVE INTERACTIVE ACCORDION WITH IMAGE LOADING */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-50/50 border-t border-b border-slate-200/60 animate-fade-in-up" id="professional-index">
+      <motion.section 
+        className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-50/50 border-t border-b border-slate-200/60" 
+        id="professional-index"
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-120px" }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div className="max-w-7xl mx-auto">
           
           <SectionHeader 
@@ -818,10 +928,17 @@ export default function App() {
           </div>
 
         </div>
-      </section>
+      </motion.section>
 
       {/* 6. ENGINEERING PRECISION - STEP-BY-STEP APPAREL PIPELINE - STYLED IN DEEP LIGHT GRADIENT */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-b border-slate-200/60 animate-fade-in-up" id="engineering-precision">
+      <motion.section 
+        className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-b border-slate-200/60" 
+        id="engineering-precision"
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-120px" }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
         
         <SectionHeader 
           badgeText="Engineering Precision"
@@ -902,10 +1019,17 @@ export default function App() {
           </div>
         </div>
 
-      </section>
+      </motion.section>
 
       {/* 7. STRATEGIC INQUIRY DESK - CONTACT FORM SECTION */}
-      <section className="bg-slate-50/50 py-24 px-4 sm:px-6 lg:px-8 border-t border-slate-100 relative animate-fade-in-up" id="contact-form-section">
+      <motion.section 
+        className="bg-slate-50/50 py-24 px-4 sm:px-6 lg:px-8 border-t border-slate-100 relative" 
+        id="contact-form-section"
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-120px" }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
         {/* Beautiful Orbs flowing below low transparency left box */}
         <div className="absolute right-[10%] bottom-[5%] w-[380px] h-[380px] bg-[#6A9DF7]/10 rounded-full filter blur-[100px] pointer-events-none" />
         
@@ -920,7 +1044,7 @@ export default function App() {
           <ContactForm />
 
         </div>
-      </section>
+      </motion.section>
 
       {/* FOOTER */}
       <footer className="bg-[#050F40] text-slate-400 py-16 text-xs font-poppins border-t border-[#020518]" id="main-app-footer">
