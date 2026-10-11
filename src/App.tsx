@@ -321,13 +321,13 @@ export default function App() {
         >
           <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between">
             
-            {/* Brand Logo with Rounded Photo, static green dot, and exact Name */}
+            {/* Brand Logo with Rounded Photo, pulsing green dot, and MMR Bappy */}
             <a href="#hero" className="flex items-center gap-3 py-1 group select-none" id="header-profile-link">
               <div className="relative">
-                <div className="w-11 h-11 rounded-full overflow-hidden bg-white">
+                <div className="w-11 h-11 rounded-full overflow-hidden bg-white shadow-xs">
                   <img 
                     src={PERSONAL_INFO.photoUrl} 
-                    alt={PERSONAL_INFO.name} 
+                    alt="MMR Bappy" 
                     referrerPolicy="no-referrer"
                     className="w-full h-full rounded-full object-cover scale-100 origin-center transition-transform duration-300 group-hover:scale-110"
                     id="pfp-thumbnail"
@@ -339,14 +339,9 @@ export default function App() {
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                 </span>
               </div>
-              <div className="flex flex-col">
-                <span className="font-sans font-black text-sm sm:text-base tracking-tight text-[#050F40] group-hover:text-[#142D95] transition-colors" id="nav-brand-name">
-                  {PERSONAL_INFO.name}
-                </span>
-                <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500">
-                  Senior Merchandiser
-                </span>
-              </div>
+              <span className="font-sans font-black text-base sm:text-lg tracking-tight text-[#050F40] group-hover:text-[#142D95] transition-colors" id="nav-brand-name">
+                MMR Bappy
+              </span>
             </a>
 
              {/* Center-Right / Right Aligned Header Choices */}

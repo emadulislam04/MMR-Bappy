@@ -3,9 +3,10 @@ import { Project, Experience, Skill } from "./types";
 export const PERSONAL_INFO = {
   name: "Md Muhyminur Rahman Bappy",
   nickname: "Bappy",
+  logoText: "MMR Bappy",
   title: "Senior Apparel Merchandiser & Textile Engineer",
   subTitle: "8+ Years of proven success in Woven, Knit, and Denim apparel. Specialist in Costing, Sourcing, International Buyer Management, and End-to-End Product Execution.",
-  photoUrl: "https://media.licdn.com/dms/image/v2/D5603AQEKMyblV5RPCA/profile-displayphoto-crop_800_800/B56Z2Q0QWQKkAI-/0/1776251123794?e=1782950400&v=beta&t=Rq0N-zF1cRebtFmHIMbVOCihcHhKzriiCJoP-4NQSLo",
+  photoUrl: "https://i.imgur.com/gKlgyHA.png",
   email: "mmrbappy07@gmail.com",
   phone: "+8801911543922",
   whatsapp: "https://wa.me/8801911543922",
